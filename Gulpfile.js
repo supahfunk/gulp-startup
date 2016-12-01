@@ -1,6 +1,7 @@
 'use strict';
 
-var gulp = require('gulp'),
+var es6promise = require('es6-promise'),
+    gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     sass = require('gulp-sass'),
     rename = require("gulp-rename"),
