@@ -9,6 +9,7 @@ var es6promise = require('es6-promise'),
     autoprefixer = require('gulp-autoprefixer'),
     cssmin = require('gulp-cssmin'),
     uglify = require('gulp-uglify'),
+    imagemin = require('gulp-imagemin'),
     webserver = require('gulp-webserver');
 
 
@@ -80,7 +81,7 @@ gulp.task('js:watch', function () {
 gulp.task('images', function () {
     return gulp.src('./img/*.+(png|jpg|jpeg|gif|svg)')
         .pipe(imagemin())
-        .pipe(gulp.dest(bases.dist + '/img'));
+        .pipe(gulp.dest('./img'));
 });
 
 
