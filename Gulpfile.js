@@ -74,6 +74,16 @@ gulp.task('js:watch', function () {
 });
 
 
+/*************
+*** IMAGES ***
+**************/
+gulp.task('images', function () {
+    return gulp.src('./img/*.+(png|jpg|jpeg|gif|svg)')
+        .pipe(imagemin())
+        .pipe(gulp.dest(bases.dist + '/img'));
+});
+
+
 /****************
 *** WEBSERVER ***
 *****************/
