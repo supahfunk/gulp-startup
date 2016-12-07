@@ -1,5 +1,5 @@
 'use strict';
-
+ 
 var es6promise = require('es6-promise'),
     gulp = require('gulp'),
     plumber = require('gulp-plumber'),
