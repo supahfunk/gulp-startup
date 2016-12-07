@@ -11,7 +11,7 @@ var es6promise = require('es6-promise'),
     uglify = require('gulp-uglify'),
     imagemin = require('gulp-imagemin'),
     webserver = require('gulp-webserver');
-	
+
 
 /***********
 *** SASS ***
