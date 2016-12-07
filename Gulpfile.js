@@ -9,6 +9,7 @@ var es6promise = require('es6-promise')
     autoprefixer = require('gulp-autoprefixer'),
     cssmin = require('gulp-cssmin'),
     uglify = require('gulp-uglify'),
+    imagemin = require('gulp-imagemin'),
     webserver = require('gulp-webserver');
 
 
@@ -71,6 +72,16 @@ gulp.task('js:watch', function () {
         console.log('watcher.on.change type: ' + e.type + ' path: ' + e.path);
     });
     return watcher;
+});
+
+
+/*************
+*** IMAGES ***
+**************/
+gulp.task('images', function () {
+    return gulp.src('./img/*.+(png|jpg|jpeg|gif|svg)')
+        .pipe(imagemin())
+        .pipe(gulp.dest('./img'));
 });
 
 
