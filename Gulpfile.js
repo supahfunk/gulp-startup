@@ -78,10 +78,17 @@ gulp.task('js:watch', function () {
 /*************
 *** IMAGES ***
 **************/
+<<<<<<< HEAD
 gulp.task('images', function () {
     return gulp.src('./img/*.+(png|jpg|jpeg|gif|svg)')
         .pipe(imagemin())
         .pipe(gulp.dest('./img'));
+=======
+gulp.task('images', function () {
+    return gulp.src('./img/*.+(png|jpg|jpeg|gif|svg)')
+        .pipe(imagemin())
+        .pipe(gulp.dest('./img'));
+>>>>>>> 3d5412465489908939cf7d58a5dc55761137de01
 });
 
 
