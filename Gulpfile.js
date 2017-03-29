@@ -1,7 +1,6 @@
 'use strict';
- 
-var es6promise = require('es6-promise'),
-    gulp = require('gulp'),
+
+var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     sass = require('gulp-sass'),
     rename = require("gulp-rename"),
@@ -9,19 +8,65 @@ var es6promise = require('es6-promise'),
     autoprefixer = require('gulp-autoprefixer'),
     cssmin = require('gulp-cssmin'),
     uglify = require('gulp-uglify'),
-    imagemin = require('gulp-imagemin'),
-    webserver = require('gulp-webserver');
+    webserver = require('gulp-webserver'),
+    header = require('gulp-header'),
+    gulpIncludeTemplate = require("gulp-include-template"),
+    tfs = require('gulp-tfs');
+
+
+var head = [
+    '/*--------------------------------------------------',
+    'Website by Websolute',
+    '--------------------------------------------------*/',
+    '/**/'].join('\n');
+
+
+/***********************
+*** TFS GET LATEST ***
+************************/
+gulp.task('getLatest:all', function () {
+    return gulp.src([
+        './css/*',
+        './sass/**/*'
+    ])
+        .pipe(tfs.get());
+});
+
+
+/*******************
+*** TFS CHECKOUT ***
+********************/
+gulp.task('checkout', function () {
+    return gulp.src([
+        './css/main.css'
+    ])
+        .pipe(tfs.checkout())
+});
+
+
+/***********************
+*** TFS CHECKOUT ALL ***
+************************/
+gulp.task('checkout:all', function () {
+    return gulp.src([
+        './css/*'
+    ])
+        .pipe(tfs.checkout());
+});
 
 
 /***********
 *** SASS ***
 ************/
-gulp.task('sass', function () {
+gulp.task('sass', ['checkout'], function () {
     console.log('COMPILING SASS');
-    return gulp.src('./sass/**/*.scss')
+    return gulp.src([
+        './sass/main.scss'
+    ])
         .pipe(plumber(function (error) {
             console.log('sass error: compile plumber', error);
         }))
+        .pipe(header(head))
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
@@ -31,10 +76,10 @@ gulp.task('sass', function () {
         .pipe(sourcemaps.write())
         .pipe(rename({ dirname: '' }))
         .pipe(gulp.dest('./css'))
-        // minify
-        .pipe(cssmin())
-		.pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest('./css'));
+    // minify
+    //.pipe(cssmin())
+    //.pipe(rename({ suffix: '.min' }))
+    //.pipe(gulp.dest('./css'));
 });
 
 
@@ -50,6 +95,57 @@ gulp.task('sass:watch', function () {
 });
 
 
+/*********************
+*** SASS BOOTSTRAP ***
+**********************/
+gulp.task('sass:bootstrap', function () {
+    console.log('COMPILING SASS');
+    return gulp.src('./sass/bootstrap/bootstrap.scss')
+        .pipe(plumber(function (error) {
+            console.log('sass error: compile plumber', error);
+        }))
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions', 'Explorer >= 10', 'Android >= 4.1', 'Safari >= 7', 'iOS >= 7'],
+            cascade: false
+        }))
+        .pipe(sourcemaps.write())
+        .pipe(rename({ dirname: '' }))
+        .pipe(gulp.dest('./css'))
+    // minify
+    //.pipe(cssmin())
+    //.pipe(rename({ suffix: '.min' }))
+    //.pipe(gulp.dest('./css'));
+});
+
+
+
+/*********************
+*** SASS ALL ***
+**********************/
+gulp.task('sass:all', function () {
+    console.log('COMPILING SASS');
+    return gulp.src('./sass/**/*.scss')
+        .pipe(plumber(function (error) {
+            console.log('sass error: compile plumber', error);
+        }))
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions', 'Explorer >= 10', 'Android >= 4.1', 'Safari >= 7', 'iOS >= 7'],
+            cascade: false
+        }))
+        .pipe(sourcemaps.write())
+        .pipe(rename({ dirname: '' }))
+        .pipe(gulp.dest('./css'))
+    // minify
+    .pipe(cssmin())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(gulp.dest('./css'));
+});
+
+
 /*********
 *** JS ***
 **********/
@@ -58,7 +154,7 @@ gulp.task('js', function () {
     return gulp.src('./js/main.js')
         // minify
         .pipe(uglify())
-		.pipe(rename({ suffix: '.min' }))
+        .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest('./js'));
 });
 
@@ -75,23 +171,6 @@ gulp.task('js:watch', function () {
 });
 
 
-/*************
-*** IMAGES ***
-**************/
-<<<<<<< HEAD
-gulp.task('images', function () {
-    return gulp.src('./img/*.+(png|jpg|jpeg|gif|svg)')
-        .pipe(imagemin())
-        .pipe(gulp.dest('./img'));
-=======
-gulp.task('images', function () {
-    return gulp.src('./img/*.+(png|jpg|jpeg|gif|svg)')
-        .pipe(imagemin())
-        .pipe(gulp.dest('./img'));
->>>>>>> 3d5412465489908939cf7d58a5dc55761137de01
-});
-
-
 /****************
 *** WEBSERVER ***
 *****************/
@@ -100,7 +179,7 @@ gulp.task('webserver', function () {
         .pipe(webserver({
             livereload: true,
             directoryListing: false,
-            port: 8888,
+            port: 40000,
             open: true
         }));
 });
@@ -111,12 +190,11 @@ gulp.task('webserver', function () {
 ****************************/
 gulp.task('publish', function () {
     gulp.src(['./**/*', '!./node_modules/**/*', '!./**/*.db'])
-    .pipe(gulp.dest('W:/cartella/'));
+        .pipe(gulp.dest('')) // W:/folder
 });
-
 
 
 /************
 *** START ***
 *************/
-gulp.task('start', ['sass', 'sass:watch']);
+gulp.task('start', ['webserver', 'sass', 'sass:watch']);

@@ -7,13 +7,13 @@
     - Auto-refreshing dev server using gulp-livereload on localhost:8888 (change your port if you want)
     - Javascript minification
 - HTML5 templated index.htm
-- Latest stable releases with CDNJS: Twitter Bootstrap 4, jQuery 3.1.0, Slick 1.6.0
+- Latest stable releases with CDNJS: Twitter Bootstrap 4 (Alpha 6), jQuery 3.2.1, Slick 1.6.0, Fancybox 3, FontAwesome 4.7
 
 ## Installation
 
-0. Check you have the required dependencies: Node ≥ v0.10 & npm ≥ 2.1.5 `node -v && npm -v`
-1. Clone the project `git clone https://github.com/supahfunk/gulp-startup.git`
-2. Install NodeJS dependencies `npm install -d`
+1. Check you have the required dependencies: Node ≥ v0.10 & npm ≥ 2.1.5 `node -v && npm -v`
+2. Clone the project `git clone https://github.com/supahfunk/gulp-startup.git`
+3. Install NodeJS dependencies `npm install -d`
 
 ## Usage
 
